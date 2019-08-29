@@ -10,7 +10,6 @@ class UserService extends Service {
     offset = 0,
     limit = 10
   }) {
-    // let user = await ctx.model.User.findAll(opts);
     let user= this.ctx.model.User.findAndCountAll({
       offset,
       limit,
@@ -19,7 +18,6 @@ class UserService extends Service {
         ['id', 'desc']
       ],
     });
-    this.logger.debug('user is >>', user)
     return user;
   }
 

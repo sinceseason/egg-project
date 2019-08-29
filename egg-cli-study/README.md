@@ -80,3 +80,7 @@ egg-project
 
 ### Sequelize + mysql2 + sequelize-cli 
 [Sequelize]: https://github.com/eggjs/egg-sequelize
+```
+npx sequelize migration:generate --name=init-users
+npx sequelize db:migrate
+```
