@@ -1,0 +1,6 @@
+[submodule "egg-examples"]
+	path = egg-examples
+	url = https://github.com/eggjs/examples.git
+[submodule "egg-sequelize"]
+	path = egg-sequelize
+	url = https://github.com/eggjs/egg-sequelize.git
