@@ -1,0 +1,11 @@
+/**/node_modules/
+/**/dist/
+/**/logs/
+/**/typings/
+/**/run/
+/**/npm-debug.log
+/**/yarn-error.log
+/**/package-lock.json
+/**/yarn.lock
+/**/coverage/
+/**/.nyc_output/
