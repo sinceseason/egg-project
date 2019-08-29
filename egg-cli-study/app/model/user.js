@@ -11,11 +11,10 @@ module.exports = app => {
         id: {
             type: INTEGER,
             primaryKey: true,
-            autoIncrement: true,
+            autoIncrement: true
         },
-        user_name: STRING(30),
-        password: STRING(30),
-        type: INTEGER,
+        name: STRING(30),
+        age: INTEGER,
         created_at: DATE,
         updated_at: DATE,
     });
