@@ -1,0 +1,19 @@
+{
+  "name": "egg-custom-project",
+  "version": "1.0.0",
+  "description": "A project use egg-core",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "egg"
+  ],
+  "author": "zhouzhou",
+  "license": "ISC",
+  "dependencies": {
+    "get-ready": "^2.0.1",
+    "koa": "^2.8.1",
+    "ready-callback": "^2.1.0"
+  }
+}
