@@ -1,0 +1,17 @@
+// https://cn.eslint.org/docs/user-guide/configuring
+{
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "impliedStrict": true
+        }
+    },
+    "env": {
+        "node": true
+    },
+    "rules": {
+        "semi": ["1"],
+        "quotes": ["1"]
+    }
+}

@@ -13,7 +13,10 @@
   "license": "ISC",
   "dependencies": {
     "get-ready": "^2.0.1",
+    "is-type-of": "^1.2.1",
     "koa": "^2.8.1",
+    "koa-router": "^7.4.0",
+    "log4js": "^5.1.0",
     "ready-callback": "^2.1.0"
   }
 }
