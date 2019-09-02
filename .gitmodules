@@ -10,3 +10,6 @@
 [submodule "egg-core"]
 	path = egg-core
 	url = https://github.com/eggjs/egg-core.git
+[submodule "egg-router"]
+	path = egg-router
+	url = https://github.com/eggjs/egg-router.git
