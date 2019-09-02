@@ -7,3 +7,6 @@
 [submodule "egg"]
 	path = egg
 	url = https://github.com/eggjs/egg.git
+[submodule "egg-core"]
+	path = egg-core
+	url = https://github.com/eggjs/egg-core.git
