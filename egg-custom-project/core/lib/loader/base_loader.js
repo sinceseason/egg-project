@@ -1,3 +1,8 @@
+const ContextLoader = require('./context_loader');
+const is = require('is-type-of');
+const utils = require('../utils');
+const FileLoader = require('./file_loader');
+
 class BaseLoader {
 	/**
 	 * @class
@@ -53,14 +58,103 @@ class BaseLoader {
 
 		return serverEnv;
 	}
+
+	loadToApp(directory, property, opt) {
+		const target = (this.app[property] = {});
+		opt = Object.assign(
+			{},
+			{
+				directory,
+				target,
+				inject: this.app
+			},
+			opt
+		);
+		new FileLoader(opt).load();
+	}
+
+	loadToContext(directory, property, opt) {
+		opt = Object.assign(
+			{},
+			{
+				directory,
+				property,
+				inject: this.app
+			},
+			opt
+		);
+
+		new ContextLoader(opt).load();
+	}
+
+	getTypeFiles(filename) {
+		const files = [ `${filename}.default` ];
+		if (this.serverEnv === 'default') return files;
+		files.push(`${filename}.${this.serverEnv}`);
+		return files;
+	}
+
+	loadFile(filepath, ...inject) {
+		filepath = filepath && this.resolveModule(filepath);
+		if (!filepath) {
+			return null;
+		}
+
+		// function(arg1, args, ...) {}
+		if (inject.length === 0) inject = [ this.app ];
+
+		let ret = this.requireFile(filepath);
+		if (is.function(ret) && !is.class(ret)) {
+			ret = ret(...inject);
+		}
+		return ret;
+	}
+
+	requireFile(filepath) {
+		const ret = utils.loadFile(filepath);
+		return ret;
+	}
+
+	getLoadUnits() {
+		if (this.dirs) {
+			return this.dirs;
+		}
+
+		const dirs = (this.dirs = []);
+
+		if (this.plugins) {
+			for (const plugin of this.plugins) {
+				dirs.push({
+					path: plugin.path,
+					type: 'plugin'
+				});
+			}
+		}
+		return dirs;
+	}
+
+	resolveModule(filepath) {
+		let fullPath;
+		try {
+			fullPath = require.resolve(filepath);
+		} catch (e) {
+			return undefined;
+		}
+
+		return fullPath;
+	}
 }
 
 const loaders = [
-    require('./mixin/controller'),
-]
+	require('./mixin/controller'),
+	require('./mixin/service'),
+	require('./mixin/router'),
+	require('./mixin/config'),
+	require('./mixin/plugin')
+];
 
 for (const loader of loaders) {
-    Object.assign(BaseLoader.prototype, loader);
+	Object.assign(BaseLoader.prototype, loader);
 }
 
 module.exports = BaseLoader;

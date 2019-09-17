@@ -12,7 +12,9 @@
   "author": "zhouzhou",
   "license": "ISC",
   "dependencies": {
+    "extend2": "^1.0.0",
     "get-ready": "^2.0.1",
+    "globby": "^10.0.1",
     "is-type-of": "^1.2.1",
     "koa": "^2.8.1",
     "koa-router": "^7.4.0",
