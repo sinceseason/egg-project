@@ -74,13 +74,69 @@ class Lifecycle extends EventEmitter {
 		ready.on('error', (err) => this.emit('error', err));
 	}
 
+	addFunctionAsBootHook(hook, name) {
+		// app.js is exported as a function
+		// call this function in configDidLoad
+		this[BOOT_HOOKS].push(
+			class Hook {
+				constructor(app) {
+					this.app = app;
+					this.name = name;
+				}
+				configDidLoad() {
+					hook(this.app);
+				}
+			}
+		);
+	}
+
+	init() {
+		this[BOOTS] = this[BOOT_HOOKS].map(t => new t(this.app));
+		if (this[BOOTS].length == 0) {
+			this.bootReady.ready(true);
+		}
+	}
+
 	registerBeforeStart(scope, name) {
 		this[REGISTER_READY_CALLBACK]({
-		  scope,
-		  ready: this.loadReady,
-		  scopeFullName: name || 'before start',
+			scope,
+			ready: this.loadReady,
+			scopeFullName: name || 'before start',
 		});
-	  }
+	}
+
+	triggerConfigWillLoad() {
+		for (const boot of this[BOOTS]) {
+			if (boot.configWillLoad) {
+				boot.configWillLoad();
+			}
+		}
+		this.triggerConfigDidLoad();
+	}
+
+	triggerConfigDidLoad() {
+		for (const boot of this[BOOTS]) {
+			if (boot.configDidLoad) {
+				boot.configDidLoad();
+			}
+		}
+		this.triggerDidLoad();
+	}
+
+	triggerDidLoad() {
+		this.logger.info('register didLoad');
+		for (const boot of this[BOOTS]) {
+			const didLoad = boot.didLoad && boot.didLoad.bind(boot);
+			if (didLoad) {
+				this[REGISTER_READY_CALLBACK]({
+					scope: didLoad,
+					ready: this.loadReady,
+					timingKeyPrefix: 'Did Load',
+					scopeFullName: boot.fullPath + ':didLoad',
+				});
+			}
+		}
+	}
 
 	triggerWillReady() {
 		this.logger.info('trigger willReady');

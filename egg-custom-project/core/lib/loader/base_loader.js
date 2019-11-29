@@ -150,7 +150,9 @@ const loaders = [
 	require('./mixin/service'),
 	require('./mixin/router'),
 	require('./mixin/config'),
-	require('./mixin/plugin')
+	require('./mixin/plugin'),
+	require('./mixin/middleware'),
+	require('./mixin/custom'),
 ];
 
 for (const loader of loaders) {
